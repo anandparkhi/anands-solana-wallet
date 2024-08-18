@@ -17,7 +17,7 @@ Anand's Web Wallet is a simple and intuitive web-based wallet for managing Solan
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/anandparkhi/solana-web-wallet.git
+   git clone https://github.com/anandparkhi/anands-solana-wallet.git
 2. Navigate to the project directory:
    cd solana-web-wallet
 3. Install dependencies:
