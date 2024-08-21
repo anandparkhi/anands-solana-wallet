@@ -25,7 +25,7 @@ export default function CreateWallet({ addWallet, network, onLogin }) {
     const createWallets = async () => {
         try {
             const seed = await bip39.mnemonicToSeed(seedPhrase);
-            const newWallets = [];  // Ensure newWallets is an array
+            const newWallets = [];
 
             for (let i = 0; i < numWallets; i++) {
                 const derivationPath = `m/44'/501'/${i}'/0'`;
@@ -42,9 +42,11 @@ export default function CreateWallet({ addWallet, network, onLogin }) {
                 newWallets.push(wallet);
             }
 
-            addWallet(newWallets);  // Pass the array of new wallets to addWallet
+            addWallet(newWallets);
             setError('');
-            onLogin(newWallets); // Log in with the generated wallets
+            if (onLogin) {
+                onLogin(newWallets);
+            }
         } catch (e) {
             setError('Failed to create wallets. Please try again.');
         }
@@ -84,6 +86,3 @@ export default function CreateWallet({ addWallet, network, onLogin }) {
         </div>
     );
 }
-
-
-

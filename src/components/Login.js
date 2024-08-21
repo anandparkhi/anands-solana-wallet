@@ -6,7 +6,7 @@ import { derivePath } from 'ed25519-hd-key';
 export default function Login({ onLogin, network }) {
     const [seedPhrase, setSeedPhrase] = useState('');
     const [error, setError] = useState('');
-    const [numWallets, setNumWallets] = useState(1); // Number of wallets to regenerate
+    const [numWallets, setNumWallets] = useState(1);
 
     const loginWithSeedPhrase = async () => {
         try {
@@ -28,7 +28,9 @@ export default function Login({ onLogin, network }) {
                 regeneratedWallets.push(wallet);
             }
 
-            onLogin(regeneratedWallets); // Log in with all regenerated wallets
+            if (onLogin) {
+                onLogin(regeneratedWallets);
+            }
             setError('');
         } catch (e) {
             setError('Invalid seed phrase. Please try again.');
@@ -60,6 +62,3 @@ export default function Login({ onLogin, network }) {
         </div>
     );
 }
-
-
-
