@@ -3,7 +3,6 @@ import CreateWallet from './components/CreateWallet';
 import WalletList from './components/WalletList';
 import WalletActions from './components/WalletActions';
 import SendSOL from './components/SendSOL';
-import SwapSOL from './components/SwapSOL';
 import NetworkSwitcher from './components/NetworkSwitcher';
 import Login from './components/Login';
 import './styles.css';
@@ -16,16 +15,17 @@ function App({ onLogin, wallets: initialWallets = [], onSelectWallet }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        if (onLogin && wallets.length > 0) {
+        if (wallets.length > 0) {
+            console.log("Wallets updated in App.js:", wallets);
             setIsLoggedIn(true);
             setSelectedWallet(wallets[0]);
         }
-    }, [wallets, onLogin]);
+    }, [wallets]);
 
     const addWallet = (newWallets) => {
         setWallets((prevWallets) => [...prevWallets, ...newWallets]);
         if (onLogin) {
-            onLogin(newWallets);
+            onLogin([...wallets, ...newWallets]);
         }
     };
 
@@ -68,8 +68,8 @@ function App({ onLogin, wallets: initialWallets = [], onSelectWallet }) {
                 </>
             ) : (
                 <>
-                    <CreateWallet addWallet={addWallet} network={network} onLogin={onLogin} />
-                    <Login onLogin={onLogin} network={network} />
+                    <CreateWallet addWallet={addWallet} network={network} onLogin={addWallet} />
+                    <Login onLogin={addWallet} network={network} />
                 </>
             )}
         </div>
