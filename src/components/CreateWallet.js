@@ -3,7 +3,7 @@ import { Keypair } from '@solana/web3.js';
 import * as bip39 from 'bip39';
 import { derivePath } from 'ed25519-hd-key';
 
-export default function CreateWallet({ addWallet, network, onLogin }) {
+export default function CreateWallet({ addWallet, network }) {
     const [seedPhrase, setSeedPhrase] = useState('');
     const [error, setError] = useState('');
     const [isGenerated, setIsGenerated] = useState(false);
@@ -42,12 +42,11 @@ export default function CreateWallet({ addWallet, network, onLogin }) {
                 newWallets.push(wallet);
             }
 
+            console.log("New wallets created:", newWallets);
             addWallet(newWallets);
             setError('');
-            if (onLogin) {
-                onLogin(newWallets);
-            }
         } catch (e) {
+            console.error("Error creating wallets:", e);
             setError('Failed to create wallets. Please try again.');
         }
     };
