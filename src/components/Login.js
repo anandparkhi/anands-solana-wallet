@@ -28,11 +28,13 @@ export default function Login({ onLogin, network }) {
                 regeneratedWallets.push(wallet);
             }
 
+            console.log("Regenerated wallets:", regeneratedWallets);
             if (onLogin) {
                 onLogin(regeneratedWallets);
             }
             setError('');
         } catch (e) {
+            console.error("Error during login:", e);
             setError('Invalid seed phrase. Please try again.');
         }
     };
