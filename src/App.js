@@ -29,11 +29,13 @@ function App({ onLogin, wallets: initialWallets = [], onSelectWallet }) {
         }
     };
 
-    const handleLogout = () => {
-        setSelectedWallet(null);
-        setIsLoggedIn(false);
-        setAction('');
-    };
+const handleLogout = () => {
+    setWallets([]); 
+    setSelectedWallet(null);
+    setIsLoggedIn(false);
+    setAction('');
+};
+
 
     const handleWalletSelect = (wallet) => {
         setSelectedWallet(wallet);
