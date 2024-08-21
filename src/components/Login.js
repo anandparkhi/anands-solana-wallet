@@ -7,38 +7,34 @@ export default function Login({ onLogin, network }) {
     const [seedPhrase, setSeedPhrase] = useState('');
     const [error, setError] = useState('');
     const [numWallets, setNumWallets] = useState(1);
-
     const loginWithSeedPhrase = async () => {
-        try {
-            const seed = await bip39.mnemonicToSeed(seedPhrase);
-            const regeneratedWallets = [];
+    try {
+        const seed = await bip39.mnemonicToSeed(seedPhrase);
+        const regeneratedWallets = [];
 
-            for (let i = 0; i < numWallets; i++) {
-                const derivationPath = `m/44'/501'/${i}'/0'`;
-                const derivedSeed = derivePath(derivationPath, seed.toString('hex')).key;
-                const keypair = Keypair.fromSeed(derivedSeed);
+        for (let i = 0; i < numWallets; i++) {
+            const derivationPath = `m/44'/501'/${i}'/0'`;
+            const derivedSeed = derivePath(derivationPath, seed.toString('hex')).key;
+            const keypair = Keypair.fromSeed(derivedSeed);
 
-                const wallet = {
-                    publicKey: keypair.publicKey.toString(),
-                    secretKey: Array.from(keypair.secretKey),
-                    network: network,
-                    accountIndex: i,
-                };
+            const wallet = {
+                publicKey: keypair.publicKey.toString(),
+                secretKey: Array.from(keypair.secretKey),
+                network: network,
+                accountIndex: i,
+            };
 
-                regeneratedWallets.push(wallet);
-            }
-
-            console.log("Regenerated wallets:", regeneratedWallets);
-            if (onLogin) {
-                onLogin(regeneratedWallets);
-            }
-            setError('');
-        } catch (e) {
-            console.error("Error during login:", e);
-            setError('Invalid seed phrase. Please try again.');
+            regeneratedWallets.push(wallet);
         }
-    };
 
+        console.log("Regenerated wallets:", regeneratedWallets);
+        onLogin(regeneratedWallets); // Overwrite the wallets state with the new wallets
+        setError('');
+    } catch (e) {
+        console.error("Error during login:", e);
+        setError('Invalid seed phrase. Please try again.');
+    }
+};
     return (
         <div>
             <h2>Log In</h2>
